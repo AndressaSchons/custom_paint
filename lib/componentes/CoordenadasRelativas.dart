@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class CoordenadasRelativas extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final pontos = [
-      Offset(size.width * 0.5, size.height * 0.2),
-      Offset(size.width * 0.89, size.height * 0.9),
-      Offset(size.width * 0.9, size.height * 0.8),
+      Offset(size.width * 0.9, size.height * 0.2),
+      Offset(size.width * 0.4, size.height * 0.4),
+      Offset(size.width * 1.0, size.height * 0.9),
     ];
 
     final paint = Paint()

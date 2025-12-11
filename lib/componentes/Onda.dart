@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-class Page3 extends StatefulWidget {
-  const Page3({super.key});
+class Onda extends StatefulWidget {
+  const Onda({super.key});
 
   @override
-  State<Page3> createState() => _Page3State();
+  State<Onda> createState() => _OndaState();
 }
 
-class _Page3State extends State<Page3> with SingleTickerProviderStateMixin {
+class _OndaState extends State<Onda> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   Color _waveColor = Colors.green;
   final _random = Random();
@@ -44,15 +44,13 @@ class _Page3State extends State<Page3> with SingleTickerProviderStateMixin {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Onda horizontal 🌊')),
-      backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: _changeColor,
         child: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
             return CustomPaint(
-              painter: _MyAnimatedPainter(
+              painter: _MinhaOndaPainter(
                 _controller.value,
                 _waveColor,
               ),
@@ -65,21 +63,20 @@ class _Page3State extends State<Page3> with SingleTickerProviderStateMixin {
   }
 }
 
-class _MyAnimatedPainter extends CustomPainter {
+class _MinhaOndaPainter extends CustomPainter {
   final double t;
   final Color waveColor;
 
-  _MyAnimatedPainter(this.t, this.waveColor);
+  _MinhaOndaPainter(this.t, this.waveColor);
 
   @override
   void paint(Canvas canvas, Size size) {
-    // fundo
     final paintBackground = Paint()
       ..color = Colors.purple
       ..style = PaintingStyle.fill;
+
     canvas.drawRect(Offset.zero & size, paintBackground);
 
-    // gradiente da onda
     final paintWave = Paint()
       ..shader = LinearGradient(
         colors: [waveColor, waveColor.withOpacity(0.7)],
@@ -89,23 +86,20 @@ class _MyAnimatedPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final path = Path();
+    final waveX = sin(t * 2 * pi) * 80;
 
-    // movimento horizontal (vai e volta)
-    final waveX = sin(t * 2 * pi) * 80; // amplitude horizontal
-
-    // forma da onda horizontal
     path.moveTo(0, 0);
     path.lineTo(0, size.height * 0.5);
 
     path.quadraticBezierTo(
-      size.width * 0.3 + waveX, // ponto de controle se move no eixo X
+      size.width * 0.3 + waveX,
       size.height * 0.3,
       size.width * 0.5,
       size.height * 0.5,
     );
 
     path.quadraticBezierTo(
-      size.width * 0.7 - waveX, // segundo controle invertido
+      size.width * 0.7 - waveX,
       size.height * 0.7,
       size.width,
       size.height * 0.5,
@@ -118,6 +112,6 @@ class _MyAnimatedPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _MyAnimatedPainter oldDelegate) =>
+  bool shouldRepaint(covariant _MinhaOndaPainter oldDelegate) =>
       oldDelegate.t != t || oldDelegate.waveColor != waveColor;
 }
